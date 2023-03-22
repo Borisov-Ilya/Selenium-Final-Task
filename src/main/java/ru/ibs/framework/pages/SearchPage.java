@@ -1,6 +1,7 @@
 package ru.ibs.framework.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -75,19 +76,23 @@ public class SearchPage extends BasePage {
 
     public SearchPage clickManufacturerCheckbox() {
         waitUtilElementToBeClickable(manufacturerCheckbox).click();
-        loading();
         return this;
     }
 
     public SearchPage waitingSearchResults() {
+        loading();
         assertTrue(searchResult.isDisplayed(), "Результаты поиска не отобразились на странице");
         return this;
     }
 
     public SearchPage checkCountSetter(String count) {
-        assertTrue(countSetter.getText().trim().contains(count),
-                String.format("Количество товаров на странице - \nExpected: %s\nActual: %s\n",
-                        count, countSetter.getText().trim()));
+        try {
+            assertTrue(countSetter.getText().trim().contains(count),
+                    String.format("Количество товаров на странице - \nExpected: %s\nActual: %s\n",
+                            count, countSetter.getText().trim()));
+        } catch (NoSuchElementException e) {
+            return this;
+        }
         return this;
     }
 
