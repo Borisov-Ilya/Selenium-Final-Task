@@ -18,11 +18,6 @@ public class SearchStep {
                 pageManager.getSearchPage().fillField((String) key, (String) value));
     }
 
-    @И("^Проверить завершение поиска по категории \"(.+)\"$")
-    public void checkFilterTitle (String filterTitle) {
-        pageManager.getSearchPage().checkFilterTitle(filterTitle);
-    }
-
     @И("^Нажимаем на найденного производителя$")
     public void clickManufacturerCheckbox() {
         pageManager.getSearchPage().clickManufacturerCheckbox();

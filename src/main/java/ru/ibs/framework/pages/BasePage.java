@@ -163,6 +163,6 @@ public class BasePage {
      */
     protected void loading() {
         wait.until(invisibilityOf(driverManager.getDriver().findElement(
-                By.xpath("//div[contains(@class, 'ListingFilters_loading')]"))));
+                By.xpath("//span[contains(@class, 'PageTitle_countSkeleton')]"))));
     }
 }

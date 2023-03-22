@@ -11,7 +11,6 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElements
 
 public class SearchPage extends BasePage {
     private String productTitle;
-    private String pageTitleCountText;
 
     @FindBy(xpath = "//h1[contains(@class, 'title')]")
     private WebElement title;
@@ -44,13 +43,8 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//div[contains(@class, 'Search')]//*[contains(@class, 'Icons_search')]")
     private WebElement searchBtn;
 
-
     @FindBy(xpath = "//div[contains(@class, 'ListingRenderer')]//h6[contains(@class, 'CardText_title')]")
     private WebElement productTitleAfterSearch;
-
-    @FindBy(xpath = "//div[contains(@class, 'Card_listing')]")
-    private List<WebElement> results;
-
 
     public SearchPage checkSearchPageTitle(String searchPageTitle) {
         waitUtilElementToBeVisible(pageTitleCount);
@@ -81,18 +75,7 @@ public class SearchPage extends BasePage {
 
     public SearchPage clickManufacturerCheckbox() {
         waitUtilElementToBeClickable(manufacturerCheckbox).click();
-        //TODO со слипом работает. Нужно пофикстить
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return this;
-    }
-
-    public SearchPage checkFilterTitle(String filterTitle) {
-        String filter = String.format("//div[contains(@class, 'FilterTags_group')]/span[text()='%s']", filterTitle);
-        assertTrue(driverManager.getDriver().findElement(By.xpath(filter)).isDisplayed());
+        loading();
         return this;
     }
 
