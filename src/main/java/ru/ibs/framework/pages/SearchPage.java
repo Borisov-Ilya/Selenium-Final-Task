@@ -31,7 +31,6 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'countSetter')]")
     private WebElement countSetter;
 
-
     @FindBy(xpath = "//h6[contains(@class, 'CardText_title')]")
     private List<WebElement> resultsTitleList;
 
