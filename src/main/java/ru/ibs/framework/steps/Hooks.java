@@ -7,6 +7,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import ru.ibs.framework.managers.DriverManager;
 import ru.ibs.framework.managers.InitManager;
+import ru.ibs.framework.managers.PageManager;
 
 public class Hooks {
     @Before
@@ -26,6 +27,7 @@ public class Hooks {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        PageManager.quitPageManager();
         InitManager.quitFramework();
     }
 }

@@ -1,7 +1,6 @@
 package ru.ibs.framework.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,6 +11,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.numberOfElements
 
 public class SearchPage extends BasePage {
     private String productTitle;
+    private String pageTitleCountText;
 
     @FindBy(xpath = "//h1[contains(@class, 'title')]")
     private WebElement title;
@@ -41,12 +41,19 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//span[contains(@class, 'PageTitle_count')]")
     private WebElement pageTitleCount;
 
+    @FindBy(xpath = "//div[contains(@class, 'Search')]//*[contains(@class, 'Icons_search')]")
+    private WebElement searchBtn;
+
 
     @FindBy(xpath = "//div[contains(@class, 'ListingRenderer')]//h6[contains(@class, 'CardText_title')]")
     private WebElement productTitleAfterSearch;
 
+    @FindBy(xpath = "//div[contains(@class, 'Card_listing')]")
+    private List<WebElement> results;
+
+
     public SearchPage checkSearchPageTitle(String searchPageTitle) {
-        waitingSearchResults();
+        waitUtilElementToBeVisible(pageTitleCount);
         assertEquals(searchPageTitle, title.getText(),
                 "Заголовок отсутствует/не соответствует требуемому");
         return this;
@@ -74,6 +81,18 @@ public class SearchPage extends BasePage {
 
     public SearchPage clickManufacturerCheckbox() {
         waitUtilElementToBeClickable(manufacturerCheckbox).click();
+        //TODO со слипом работает. Нужно пофикстить
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return this;
+    }
+
+    public SearchPage checkFilterTitle(String filterTitle) {
+        String filter = String.format("//div[contains(@class, 'FilterTags_group')]/span[text()='%s']", filterTitle);
+        assertTrue(driverManager.getDriver().findElement(By.xpath(filter)).isDisplayed());
         return this;
     }
 
@@ -83,20 +102,20 @@ public class SearchPage extends BasePage {
     }
 
     public SearchPage checkCountSetter(String count) {
-            assertTrue(countSetter.getText().trim().contains(count),
-                    String.format("Количество товаров на странице - \nExpected: %s\nActual: %s\n",
-                            count, countSetter.getText().trim()));
+        assertTrue(countSetter.getText().trim().contains(count),
+                String.format("Количество товаров на странице - \nExpected: %s\nActual: %s\n",
+                        count, countSetter.getText().trim()));
         return this;
     }
 
-    public String selectProductTitle(int number) {
+    public String saveProductTitle(int number) {
         productTitle = resultsTitleList.get(number - 1).getText().trim();
         return productTitle;
     }
 
     public SearchPage fillSearchInput() {
         fillInputField(searchInput, productTitle);
-        searchInput.sendKeys(Keys.ENTER);
+        waitUtilElementToBeClickable(searchBtn).click();
         return this;
     }
 

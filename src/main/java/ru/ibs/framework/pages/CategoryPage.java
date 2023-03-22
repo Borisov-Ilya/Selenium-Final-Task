@@ -9,12 +9,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class CategoryPage extends BasePage {
+    @FindBy(xpath = "//h1[contains(@class, 'title')]")
+    private WebElement title;
     @FindBy(xpath = "//p[contains(@class, 'CardCategory_title')]")
     private List<WebElement> subCategoryList;
 
+    public CategoryPage checkLoadPage() {
+        waitUtilElementToBeVisible(title);
+        return this;
+    }
+
     public SearchPage selectSubCategory(String nameSubCategory) {
-        int i = 0;
-        while (i < 1000) {
             for (WebElement subCategoryItem : subCategoryList) {
                 try {
                     waitUtilElementToBeVisible(subCategoryItem);
@@ -25,8 +30,6 @@ public class CategoryPage extends BasePage {
                 } catch (StaleElementReferenceException e) {
                     e.printStackTrace();
                 }
-            }
-            i++;
         }
         fail("Подкатегория товаров '" + nameSubCategory + "' не была найдена!");
         return pageManager.getSearchPage();

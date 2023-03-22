@@ -18,6 +18,11 @@ public class SearchStep {
                 pageManager.getSearchPage().fillField((String) key, (String) value));
     }
 
+    @И("^Проверить завершение поиска по категории \"(.+)\"$")
+    public void checkFilterTitle (String filterTitle) {
+        pageManager.getSearchPage().checkFilterTitle(filterTitle);
+    }
+
     @И("^Нажимаем на найденного производителя$")
     public void clickManufacturerCheckbox() {
         pageManager.getSearchPage().clickManufacturerCheckbox();
@@ -35,7 +40,7 @@ public class SearchStep {
 
     @И("^Сохранить наименование (\\d+) товара в списке$")
     public void selectProductTitle(int number) {
-        pageManager.getSearchPage().selectProductTitle(number);
+        pageManager.getSearchPage().saveProductTitle(number);
     }
 
     @И("^В поисковую строку ввести запомненное значение, выполнить поиск$")
@@ -43,7 +48,7 @@ public class SearchStep {
         pageManager.getSearchPage().fillSearchInput();
     }
 
-    @И("^Проверить, что в поисковой выдаче не более (\\d+) товара$")
+    @И("^Проверить, что в поисковой выдаче товаров не более - (\\d+)$")
     public void checkPageTitleCount(int number) {
         pageManager.getSearchPage().checkPageTitleCount(number);
     }

@@ -84,4 +84,10 @@ public class PageManager {
         }
         return searchPage;
     }
+
+    public static void quitPageManager() {
+        if (pageManager != null) {
+            pageManager = null;
+        }
+    }
 }
